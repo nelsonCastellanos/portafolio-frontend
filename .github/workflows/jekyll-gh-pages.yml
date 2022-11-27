@@ -34,8 +34,10 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm install
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
       - name: Build
-        run: npm run build
+        run: ng build --base-href /portafolio-frontend/
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
@@ -47,7 +49,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: http://nelsoncastellanos.github.io/portafolio-frontend/
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
